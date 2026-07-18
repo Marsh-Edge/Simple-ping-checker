@@ -42,13 +42,13 @@ def get_packet_size():
 
 def get_packet_count():
     while True:
-        count_input = input("\nEnter packet count (DEFAULT 4) : ").strip()
+        count_input = input("\nEnter packet count (0 for continuous, DEFAULT 4) : ").strip()
         if not count_input:
             return 4
         try:
             count = int(count_input)
-            if count <= 0:
-                print("Count must be a positive integer.")
+            if count < 0:
+                print("Count must be 0 or a positive integer.")
                 continue
             return count
         except ValueError:
