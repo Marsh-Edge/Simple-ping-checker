@@ -1,6 +1,6 @@
 import re
 
-from pings.utils import run_ping
+from pings.utils import resolve_domain, run_ping
 
 
 def validate_domain(domain):
@@ -83,6 +83,12 @@ def domain_ping(source_ip, dest_domain, packet_size, packet_count, timeout=4, qu
     print(f"Your destination domain is : {dest_domain}")
     print(f"Your packet size is : {packet_size}")
     print(f"Your packet count is : {packet_count}\n")
+
+    resolved_ip = resolve_domain(dest_domain)
+    if resolved_ip:
+        print(f"Resolved: {dest_domain} -> {resolved_ip}\n")
+    else:
+        print(f"Failed to resolve: {dest_domain}\n")
 
     run_ping(
         dst=dest_domain,

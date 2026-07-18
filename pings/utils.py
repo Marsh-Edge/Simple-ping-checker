@@ -1,6 +1,14 @@
+import socket
 import time
 
 from ping3 import ping
+
+
+def resolve_domain(domain):
+    try:
+        return socket.gethostbyname(domain)
+    except socket.gaierror:
+        return None
 
 
 def run_ping(dst, count=4, size=56, src_addr=None, timeout=4, quiet=False):
