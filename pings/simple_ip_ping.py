@@ -55,7 +55,22 @@ def get_packet_count():
             print("Invalid input. Please enter a numeric value.")
 
 
-def ip_ping(source_ip, dest_ip, packet_size, packet_count, quiet=False):
+def get_timeout():
+    while True:
+        timeout_input = input("\nEnter timeout in seconds (DEFAULT 4) : ").strip()
+        if not timeout_input:
+            return 4
+        try:
+            timeout = int(timeout_input)
+            if timeout <= 0:
+                print("Timeout must be a positive integer.")
+                continue
+            return timeout
+        except ValueError:
+            print("Invalid input. Please enter a numeric value.")
+
+
+def ip_ping(source_ip, dest_ip, packet_size, packet_count, timeout=4, quiet=False):
     print(f"\nYour source IP is : {source_ip or 'DEFAULT'}")
     print(f"Your destination IP is : {dest_ip}")
     print(f"Your packet size is : {packet_size}")
@@ -66,6 +81,7 @@ def ip_ping(source_ip, dest_ip, packet_size, packet_count, quiet=False):
         count=packet_count,
         size=packet_size,
         src_addr=source_ip,
+        timeout=timeout,
         quiet=quiet,
     )
 
@@ -75,4 +91,5 @@ if __name__ == "__main__":
     dst = get_destination_ip()
     size = get_packet_size()
     count = get_packet_count()
-    ip_ping(src, dst, size, count)
+    timeout = get_timeout()
+    ip_ping(src, dst, size, count, timeout=timeout)

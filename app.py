@@ -3,6 +3,7 @@ from pings.simple_ip_ping import (
     get_destination_ip,
     get_packet_size,
     get_packet_count,
+    get_timeout,
     ip_ping,
 )
 from pings.simple_domain_ping import (
@@ -16,7 +17,8 @@ def ip_ping_menu(quiet=False):
     dst = get_destination_ip()
     size = get_packet_size()
     count = get_packet_count()
-    ip_ping(src, dst, size, count, quiet=quiet)
+    timeout = get_timeout()
+    ip_ping(src, dst, size, count, timeout=timeout, quiet=quiet)
 
 
 def domain_ping_menu(quiet=False):
@@ -24,7 +26,8 @@ def domain_ping_menu(quiet=False):
     dst = get_destination_domain()
     size = get_packet_size()
     count = get_packet_count()
-    domain_ping(src, dst, size, count, quiet=quiet)
+    timeout = get_timeout()
+    domain_ping(src, dst, size, count, timeout=timeout, quiet=quiet)
 
 
 def main():
