@@ -1,6 +1,6 @@
 import re
 
-from ping3 import verbose_ping
+from pings.utils import run_ping
 
 
 def validate_domain(domain):
@@ -63,18 +63,19 @@ def get_packet_count():
             print("Invalid input. Please enter a numeric value.")
 
 
-def domain_ping(source_ip, dest_domain, packet_size, packet_count):
-    ping_kwargs = {"dst": dest_domain, "size": packet_size, "count": packet_count}
-
+def domain_ping(source_ip, dest_domain, packet_size, packet_count, quiet=False):
     print(f"\nYour source IP is : {source_ip or 'DEFAULT'}")
     print(f"Your destination domain is : {dest_domain}")
     print(f"Your packet size is : {packet_size}")
     print(f"Your packet count is : {packet_count}\n")
 
-    if source_ip:
-        ping_kwargs["src_addr"] = source_ip
-
-    verbose_ping(**ping_kwargs)
+    run_ping(
+        dst=dest_domain,
+        count=packet_count,
+        size=packet_size,
+        src_addr=source_ip,
+        quiet=quiet,
+    )
 
 
 if __name__ == "__main__":
