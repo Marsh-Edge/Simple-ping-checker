@@ -70,7 +70,22 @@ def get_timeout():
             print("Invalid input. Please enter a numeric value.")
 
 
-def ip_ping(source_ip, dest_ip, packet_size, packet_count, timeout=4, quiet=False):
+def get_ttl():
+    while True:
+        ttl_input = input("\nEnter TTL (DEFAULT OS: 64 on Linux/macOS, 128 on Windows) : ").strip()
+        if not ttl_input:
+            return None
+        try:
+            ttl = int(ttl_input)
+            if ttl <= 0:
+                print("TTL must be a positive integer.")
+                continue
+            return ttl
+        except ValueError:
+            print("Invalid input. Please enter a numeric value.")
+
+
+def ip_ping(source_ip, dest_ip, packet_size, packet_count, timeout=4, ttl=None, quiet=False):
     print(f"\nYour source IP is : {source_ip or 'DEFAULT'}")
     print(f"Your destination IP is : {dest_ip}")
     print(f"Your packet size is : {packet_size}")
@@ -82,6 +97,7 @@ def ip_ping(source_ip, dest_ip, packet_size, packet_count, timeout=4, quiet=Fals
         size=packet_size,
         src_addr=source_ip,
         timeout=timeout,
+        ttl=ttl,
         quiet=quiet,
     )
 
@@ -92,4 +108,5 @@ if __name__ == "__main__":
     size = get_packet_size()
     count = get_packet_count()
     timeout = get_timeout()
-    ip_ping(src, dst, size, count, timeout=timeout)
+    ttl = get_ttl()
+    ip_ping(src, dst, size, count, timeout=timeout, ttl=ttl)

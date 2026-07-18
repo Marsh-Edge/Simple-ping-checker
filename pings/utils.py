@@ -1,3 +1,4 @@
+import datetime
 import socket
 import time
 
@@ -11,7 +12,11 @@ def resolve_domain(domain):
         return None
 
 
-def run_ping(dst, count=4, size=56, src_addr=None, timeout=4, quiet=False):
+def timestamp():
+    return datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S")
+
+
+def run_ping(dst, count=4, size=56, src_addr=None, timeout=4, ttl=None, quiet=False):
     sent = 0
     received = 0
     latencies = []
@@ -23,20 +28,22 @@ def run_ping(dst, count=4, size=56, src_addr=None, timeout=4, quiet=False):
             kwargs = {"dest_addr": dst, "size": size, "timeout": timeout, "unit": "ms"}
             if src_addr:
                 kwargs["src_addr"] = src_addr
+            if ttl is not None:
+                kwargs["ttl"] = ttl
 
             result = ping(**kwargs)
 
             if result is None:
                 if not quiet:
-                    print(f"Request timed out. (seq={seq})")
+                    print(f"[{timestamp()}] Request timed out. (seq={seq})")
             elif result is False:
                 if not quiet:
-                    print(f"Destination unreachable. (seq={seq})")
+                    print(f"[{timestamp()}] Destination unreachable. (seq={seq})")
             else:
                 received += 1
                 latencies.append(result)
                 if not quiet:
-                    print(f"Reply from {dst}: bytes={size} time={result:.1f}ms")
+                    print(f"[{timestamp()}] Reply from {dst}: bytes={size} time={result:.1f}ms")
 
             seq += 1
             if count == 0 or seq < count:
