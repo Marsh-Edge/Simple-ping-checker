@@ -1,3 +1,4 @@
+import ipaddress
 import re
 
 from pings.utils import resolve_domain, run_ping
@@ -8,9 +9,11 @@ def validate_domain(domain):
         return False
     if domain.startswith(".") or domain.endswith(".") or ".." in domain:
         return False
-    ipv4_pattern = r"^((25[0-5]|2[0-4]\d|[01]?\d\d?)\.){3}(25[0-5]|2[0-4]\d|[01]?\d\d?)$"
-    if re.match(ipv4_pattern, domain):
+    try:
+        ipaddress.ip_address(domain)
         return False
+    except ValueError:
+        pass
     label_pattern = r"^[a-zA-Z0-9]([a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?$"
     labels = domain.split(".")
     return all(re.match(label_pattern, label) and len(label) <= 63 for label in labels)
@@ -23,7 +26,7 @@ def get_source_ip():
 
 def get_destination_domain():
     while True:
-        dest_domain = input("\nEnter your domain (DO NOT ENTER IP LIKE '8.8.8.8'): ").strip()
+        dest_domain = input("\nEnter your domain (DO NOT ENTER IP LIKE '8.8.8.8' or 'fd00::1'): ").strip()
         if not dest_domain:
             print("Destination domain cannot be empty. Please enter a valid domain.")
             continue
