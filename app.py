@@ -5,14 +5,17 @@ from pings.simple_ip_ping import (
     get_packet_count,
     get_timeout,
     get_ttl,
+    get_interval,
     ip_ping,
 )
 from pings.simple_ipv6_ping import (
     get_destination_ipv6,
+    get_interval as ipv6_get_interval,
     ipv6_ping,
 )
 from pings.simple_domain_ping import (
     get_destination_domain,
+    get_interval as domain_get_interval,
     domain_ping,
 )
 
@@ -24,7 +27,8 @@ def ip_ping_menu(quiet=False):
     count = get_packet_count()
     timeout = get_timeout()
     ttl = get_ttl()
-    ip_ping(src, dst, size, count, timeout=timeout, ttl=ttl, quiet=quiet)
+    interval = get_interval()
+    ip_ping(src, dst, size, count, timeout=timeout, ttl=ttl, interval=interval, quiet=quiet)
 
 
 def ipv6_ping_menu(quiet=False):
@@ -34,7 +38,8 @@ def ipv6_ping_menu(quiet=False):
     count = get_packet_count()
     timeout = get_timeout()
     ttl = get_ttl()
-    ipv6_ping(src, dst, size, count, timeout=timeout, ttl=ttl, quiet=quiet)
+    interval = ipv6_get_interval()
+    ipv6_ping(src, dst, size, count, timeout=timeout, ttl=ttl, interval=interval, quiet=quiet)
 
 
 def domain_ping_menu(quiet=False):
@@ -44,7 +49,8 @@ def domain_ping_menu(quiet=False):
     count = get_packet_count()
     timeout = get_timeout()
     ttl = get_ttl()
-    domain_ping(src, dst, size, count, timeout=timeout, ttl=ttl, quiet=quiet)
+    interval = domain_get_interval()
+    domain_ping(src, dst, size, count, timeout=timeout, ttl=ttl, interval=interval, quiet=quiet)
 
 
 def main():

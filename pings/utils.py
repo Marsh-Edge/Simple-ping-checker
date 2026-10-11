@@ -16,7 +16,7 @@ def timestamp():
     return datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S")
 
 
-def run_ping(dst, count=4, size=56, src_addr=None, timeout=4, ttl=None, quiet=False):
+def run_ping(dst, count=4, size=56, src_addr=None, timeout=4, ttl=None, interval=1.0, quiet=False):
     sent = 0
     received = 0
     latencies = []
@@ -47,7 +47,7 @@ def run_ping(dst, count=4, size=56, src_addr=None, timeout=4, ttl=None, quiet=Fa
 
             seq += 1
             if count == 0 or seq < count:
-                time.sleep(0)
+                time.sleep(interval)
     except KeyboardInterrupt:
         if not quiet:
             print("\nStopped by user.")
