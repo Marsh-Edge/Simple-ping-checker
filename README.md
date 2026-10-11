@@ -84,6 +84,7 @@ Simple-ping-checker/
 ├── app.py                          # Main entry point with menu
 ├── LICENSE                         # MIT License
 ├── README.md                       # This file
+├── requirements.txt                # Python dependencies
 └── pings/
     ├── __init__.py                 # Package init
     ├── utils.py                    # Shared ping logic, DNS, timestamps
@@ -113,7 +114,13 @@ cd Simple-ping-checker
 2. **Install dependencies**
 
 ```bash
-pip install ping3
+pip install -r requirements.txt
+```
+
+Or install dependencies directly:
+
+```bash
+pip install ping3 colorama
 ```
 
 3. **Run the application**
